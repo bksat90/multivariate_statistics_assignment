@@ -59,5 +59,25 @@ HotellingsT2(quantVar, mu = givenMean)
 
 ######### two-sample profile analysis plot
 # male group
+sampleMale <- custData[custData$Gender == "Male", ]
+quantMale <- sampleMale[c(3, 4, 6, 7)]
+maleMean <- as.matrix(colMeans(quantMale),
+                                nrow = length(quantMale),
+                                ncol = 1,
+                                byrow = T)
+maleMean
 
+  
 # female group
+sampleFemale <- custData[custData$Gender == "Female", ]
+quantFemale <- sampleFemale[c(3, 4, 6, 7)]
+
+femaleMean <- as.matrix(colMeans(quantFemale),
+                      nrow = length(quantFemale),
+                      ncol = 1,
+                      byrow = T)
+femaleMean
+
+# profile plot
+pbg(profileData[, 2:5], profileData$Gender,
+    original.names = T, profile.plot = T)
