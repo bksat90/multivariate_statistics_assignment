@@ -11,6 +11,9 @@ library(ICSNP)
 myFile <- "C:/Users/bksat/Documents/mvs_assignment/Customers.xlsx"
 custData <- read_excel(myFile, range = cell_cols("A:G"))
 
+head(custData)
+
+
 # adding new age group column based on age
 custData <- custData %>%
                 mutate(
@@ -81,3 +84,37 @@ femaleMean
 # profile plot
 pbg(profileData[, 2:5], profileData$Gender,
     original.names = T, profile.plot = T)
+
+
+# one way MANOVA between four age groups
+head(custData)
+cust.man <- manova(cbind(Income, Score, Shops, Size) ~ AgeGroup, data = custData)
+cust.man
+
+summary(cust.man, test = "Wilks")
+
+#From the above Wilks test, p-value is found as 0, which implies strong evidence against null hypothesis of equal population mean vectors amongst different age group
+
+summary.aov(cust.man)
+# Income and size have lesser p values
+
+
+#### discriminant analysis
+
+#### Two way MANOVA
+cust.two.man <- manova(cbind(Income, Score, Shops, Size) ~ AgeGroup*Gender,
+                       data = custData)
+cust.two.man
+
+summary(cust.two.man, test = "Wilks")
+
+cust.two.man.add <- manova(cbind(Income, Score, Shops, Size) ~ AgeGroup+Gender,
+                       data = custData)
+cust.two.man.add
+
+summary(cust.two.man.add, test = "Wilks")
+
+
+
+
+
